@@ -11,7 +11,8 @@ Sistema, kuri prognozuoja nekilnojamojo turto kainą pagal:
  https://zenodo.org/records/10962212
 
  Tada išpakuokite descriptions bei images folderius
- Gautus duomenis įkelkite į ęsančios direktorijos data folderį: 
+ Projekto direktorijoj sukurkite data bei static folderius
+ Tada i data folderi sudekite savo duomenis (descriptions images properties)
  ./data: 
     /decriptions 
     /images 
