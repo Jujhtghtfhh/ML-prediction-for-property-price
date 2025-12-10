@@ -12,7 +12,7 @@ Sistema, kuri prognozuoja nekilnojamojo turto kainą pagal:
 
  Tada išpakuokite descriptions bei images folderius
  Projekto direktorijoj sukurkite data bei static folderius
- Tada i data folderi sudekite savo duomenis (descriptions images properties)
+ Tada i data folderi sudekite savo duomenis (descriptions images properties)```\n```
  ./data: 
     /decriptions 
     /images 
