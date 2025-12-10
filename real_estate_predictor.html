@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NT Kainos Prognozė | Pietų Ispanija</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root{--terracotta:#C45C26;--terracotta-dark:#9E4A1E;--sand:#F5E6D3;--sand-light:#FDF8F3;--olive:#5C6B4D;--navy:#1E3A5F;--white:#fff}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Source Sans Pro',sans-serif;background:linear-gradient(135deg,var(--sand-light),var(--sand));min-height:100vh;color:var(--navy)}
+        .container{max-width:1200px;margin:0 auto;padding:30px 20px}
+        header{text-align:center;margin-bottom:40px}
+        h1{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--navy);margin-bottom:8px}
+        .subtitle{font-size:1.1rem;color:var(--olive)}
+        .main-card{background:var(--white);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.1);display:grid;grid-template-columns:1fr 380px;overflow:hidden}
+        @media(max-width:900px){.main-card{grid-template-columns:1fr}}
+        .form-section{padding:40px}
+        .result-section{background:linear-gradient(150deg,var(--terracotta),var(--terracotta-dark));padding:40px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--white);text-align:center}
+        .form-group{margin-bottom:24px}
+        label{display:block;font-weight:600;margin-bottom:8px;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+        input,select{width:100%;padding:14px 18px;border:2px solid #E8E0D5;border-radius:12px;font-size:1rem;font-family:inherit;background:var(--sand-light);transition:all .3s}
+        input:focus,select:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 4px rgba(196,92,38,.1)}
+        select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C45C26' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:18px}
+        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+        .features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;max-height:250px;overflow-y:auto;padding:14px;background:var(--sand-light);border-radius:12px;border:2px solid #E8E0D5}
+        .feature-item{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--white);border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all .2s}
+        .feature-item:hover{border-color:rgba(196,92,38,.3)}
+        .feature-item.selected{border-color:var(--terracotta);background:rgba(196,92,38,.05)}
+        .feature-item input{width:18px;height:18px;accent-color:var(--terracotta)}
+        .feature-item label{margin:0;font-size:.82rem;font-weight:500;text-transform:none;letter-spacing:0;cursor:pointer}
+        .image-upload{border:3px dashed var(--terracotta);border-radius:16px;padding:35px;text-align:center;cursor:pointer;background:var(--sand-light);position:relative;transition:all .3s}
+        .image-upload:hover{background:var(--white);border-style:solid}
+        .image-upload.dragover{background:rgba(196,92,38,.08);border-style:solid}
+        .image-upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+        .upload-icon{width:60px;height:60px;margin:0 auto 15px;background:var(--terracotta);border-radius:50%;display:flex;align-items:center;justify-content:center}
+        .upload-icon svg{width:28px;height:28px;stroke:var(--white)}
+        .upload-text{font-weight:600;margin-bottom:4px}
+        .upload-hint{color:var(--olive);font-size:.9rem}
+        .preview-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+        .preview-item{width:80px;height:80px;border-radius:10px;overflow:hidden;position:relative}
+        .preview-item img{width:100%;height:100%;object-fit:cover}
+        .preview-item .remove{position:absolute;top:4px;right:4px;width:22px;height:22px;background:var(--terracotta);color:white;border:none;border-radius:50%;cursor:pointer;font-size:14px}
+        .submit-btn{width:100%;padding:18px;background:var(--terracotta);color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:1px;margin-top:10px;transition:all .3s;box-shadow:0 8px 25px rgba(196,92,38,.25)}
+        .submit-btn:hover{background:var(--terracotta-dark);transform:translateY(-2px);box-shadow:0 12px 35px rgba(196,92,38,.35)}
+        .submit-btn:disabled{background:#bbb;transform:none;box-shadow:none;cursor:not-allowed}
+        .result-title{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:15px;opacity:.9}
+        .result-price{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;margin-bottom:20px;text-shadow:0 4px 20px rgba(0,0,0,.2)}
+        .result-note{font-size:.95rem;opacity:.8;max-width:280px;line-height:1.6}
+        .result-placeholder svg{width:80px;height:80px;stroke:rgba(255,255,255,.5);margin-bottom:20px}
+        .loading{display:none}
+        .loading.active{display:block}
+        .spinner{width:50px;height:50px;border:4px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+        .result-display{animation:fadeIn .5s ease}
+        .section-title{font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:18px;display:flex;align-items:center;gap:12px}
+        .section-title::before{content:'';width:4px;height:24px;background:var(--terracotta);border-radius:2px}
+        .info-banner{background:var(--olive);color:white;padding:18px 24px;border-radius:12px;margin-bottom:28px;display:flex;align-items:center;gap:14px}
+        .info-banner svg{width:24px;height:24px;flex-shrink:0}
+        .info-banner p{font-size:.95rem;line-height:1.5}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏠 Nekilnojamojo Turto Vertinimas</h1>
+            <p class="subtitle">Pietų Ispanija • Costa del Sol</p>
+        </header>
+        <div class="main-card">
+            <div class="form-section">
+                <form id="prediction-form">
+                    <div class="info-banner">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p>Užpildykite informaciją apie nekilnojamąjį turtą ir įkelkite nuotraukas, kad gautumėte prognozuojamą kainą.</p>
+                    </div>
+                    <h3 class="section-title">Pagrindinė informacija</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="location">Vieta</label>
+                            <select id="location" name="location" required>
+                                <option value="">Pasirinkite vietą...</option>
+                                <option value="Coín">Coín, Costa del Sol</option>
+                                <option value="Estepona">Estepona, Costa del Sol</option>
+                                <option value="Marbella">Marbella, Costa del Sol</option>
+                                <option value="Málaga">Málaga, Costa del Sol</option>
+                                <option value="Fuengirola">Fuengirola, Costa del Sol</option>
+                                <option value="Nerja">Nerja, Costa del Sol</option>
+                                <option value="Mijas">Mijas, Costa del Sol</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="property_type">Turto tipas</label>
+                            <select id="property_type" name="property_type" required>
+                                <option value="">Pasirinkite tipą...</option>
+                                <option value="Apartment">Apartment (Butas)</option>
+                                <option value="Villa">Villa</option>
+                                <option value="Finca">Finca (Ūkis)</option>
+                                <option value="Townhouse">Townhouse (Kotedžas)</option>
+                                <option value="Plot">Plot (Sklypas)</option>
+                                <option value="Land">Land (Žemė)</option>
+                                <option value="Penthouse">Penthouse</option>
+                                <option value="Commercial">Commercial (Komercinis)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h3 class="section-title">Charakteristikos</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="bedrooms">Miegamųjų skaičius</label>
+                            <input type="number" id="bedrooms" name="bedrooms" min="0" value="2" placeholder="pvz., 3">
+                        </div>
+                        <div class="form-group">
+                            <label for="bathrooms">Vonios kambarių skaičius</label>
+                            <input type="number" id="bathrooms" name="bathrooms" min="0" value="1" placeholder="pvz., 2">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="indoor_area">Vidaus plotas (m²)</label>
+                            <input type="number" id="indoor_area" name="indoor_area" min="0" value="100" placeholder="pvz., 150">
+                        </div>
+                        <div class="form-group">
+                            <label for="outdoor_area">Išorės plotas (m²)</label>
+                            <input type="number" id="outdoor_area" name="outdoor_area" min="0" value="50" placeholder="pvz., 500">
+                        </div>
+                    </div>
+                    <h3 class="section-title">Papildomi požymiai</h3>
+                    <div class="form-group">
+                        <div class="features-grid" id="features-container"></div>
+                    </div>
+                    <h3 class="section-title">Nuotraukos</h3>
+                    <div class="form-group">
+                        <div class="image-upload" id="dropzone">
+                            <input type="file" id="images" name="images" multiple accept="image/*">
+                            <div class="upload-icon">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </div>
+                            <p class="upload-text">Įkelkite nuotraukas</p>
+                            <p class="upload-hint">Vilkite failus arba spustelėkite (maks. 5)</p>
+                        </div>
+                        <div class="preview-grid" id="preview-grid"></div>
+                    </div>
+                    <button type="submit" class="submit-btn" id="submit-btn">Prognozuoti kainą</button>
+                </form>
+            </div>
+            <div class="result-section">
+                <div id="result-placeholder" class="result-content">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    <p class="result-title">Prognozuojama kaina</p>
+                    <p class="result-note">Užpildykite formą ir paspauskite „Prognozuoti kainą"</p>
+                </div>
+                <div id="loading" class="loading result-content">
+                    <div class="spinner"></div>
+                    <p class="result-title">Skaičiuojama...</p>
+                    <p class="result-note">Analizuojami duomenys ir nuotraukos</p>
+                </div>
+                <div id="result-display" class="result-content result-display" style="display:none">
+                    <p class="result-title">Prognozuojama kaina</p>
+                    <p class="result-price" id="predicted-price">€0</p>
+                    <p class="result-note">Ši kaina yra apytikslė prognozė, pagrįsta pateiktais duomenimis</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+// Požymių sąrašas
+const FEATURES = [
+    "Close to Shops", "Mountain Views", "Private Garden", "Open Parking", 
+    "Urban Views", "Electricity Utilities", "Drinkable Water Utilities", 
+    "Country Views", "Close to Town", "Country", "Urbanisation", "Street Views",
+    "Street Parking", "Private Parking", "Private Pool", "South Orientation",
+    "Barbeque", "Private Terrace", "Storage Room", "Sea Views", "Beachfront",
+    "Panoramic Views", "Communal Garden", "Close To Sea", "Fireplace Climate Control",
+    "Ensuite Bathroom", "Fully Furnished Furniture", "Fully Fitted Kitchen",
+    "Fitted Wardrobes", "Guest Apartment", "Garage Parking", "Telephone Utilities"
+];
+
+// Bazinės kainos pagal vietą
+const LOCATION_PRICES = {
+    "Coín": 115000,
+    "Estepona": 450000,
+    "Marbella": 850000,
+    "Málaga": 350000,
+    "Fuengirola": 280000,
+    "Nerja": 320000,
+    "Mijas": 380000
+};
+
+// Turto tipo koeficientai
+const TYPE_MULTIPLIERS = {
+    "Apartment": 1.0,
+    "Villa": 2.5,
+    "Finca": 1.8,
+    "Townhouse": 1.3,
+    "Plot": 0.4,
+    "Land": 0.3,
+    "Penthouse": 1.8,
+    "Commercial": 1.5
+};
+
+// Požymių vertė
+const FEATURE_VALUES = {
+    "Private Pool": 80000,
+    "Sea Views": 120000,
+    "Beachfront": 200000,
+    "Panoramic Views": 60000,
+    "Mountain Views": 30000,
+    "Private Garden": 40000,
+    "Garage Parking": 25000,
+    "Guest Apartment": 50000,
+    "Ensuite Bathroom": 15000,
+    "Fully Furnished Furniture": 20000,
+    "Close to Town": 15000,
+    "Close To Sea": 50000,
+    "South Orientation": 20000
+};
+
+// Generuoti požymių checkboxus
+const featuresContainer = document.getElementById('features-container');
+FEATURES.forEach((feature, i) => {
+    const div = document.createElement('div');
+    div.className = 'feature-item';
+    div.innerHTML = `
+        <input type="checkbox" id="feat_${i}" name="features" value="${feature}">
+        <label for="feat_${i}">${feature}</label>
+    `;
+    div.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'INPUT') {
+            const checkbox = div.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+        }
+        div.classList.toggle('selected', div.querySelector('input').checked);
+    });
+    featuresContainer.appendChild(div);
+});
+
+// Nuotraukų valdymas
+const imageInput = document.getElementById('images');
+const previewGrid = document.getElementById('preview-grid');
+const dropzone = document.getElementById('dropzone');
+let selectedFiles = [];
+let imageFeatures = [];
+
+dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('dragover');
+});
+
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+
+dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+});
+
+imageInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+function handleFiles(files) {
+    const newFiles = Array.from(files).slice(0, 5 - selectedFiles.length);
+    selectedFiles = [...selectedFiles, ...newFiles].slice(0, 5);
+    updatePreview();
+    extractImageFeatures();
+}
+
+function updatePreview() {
+    previewGrid.innerHTML = '';
+    selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const div = document.createElement('div');
+            div.className = 'preview-item';
+            div.innerHTML = `
+                <img src="${e.target.result}" alt="Preview">
+                <button type="button" class="remove" data-index="${index}">×</button>
+            `;
+            previewGrid.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+previewGrid.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove')) {
+        const index = parseInt(e.target.dataset.index);
+        selectedFiles.splice(index, 1);
+        updatePreview();
+        extractImageFeatures();
+    }
+});
+
+// Ištraukti vaizdų savybes (spalvų statistika)
+function extractImageFeatures() {
+    imageFeatures = [];
+    if (selectedFiles.length === 0) return;
+    
+    let processed = 0;
+    selectedFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 64;
+                canvas.height = 64;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 64, 64);
+                const imageData = ctx.getImageData(0, 0, 64, 64).data;
+                
+                // Apskaičiuoti spalvų vidurkius
+                let r = 0, g = 0, b = 0;
+                for (let i = 0; i < imageData.length; i += 4) {
+                    r += imageData[i];
+                    g += imageData[i + 1];
+                    b += imageData[i + 2];
+                }
+                const pixels = imageData.length / 4;
+                imageFeatures.push({
+                    brightness: (r + g + b) / (3 * pixels),
+                    rRatio: r / (r + g + b + 1),
+                    gRatio: g / (r + g + b + 1)
+                });
+                
+                processed++;
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// Prognozavimo funkcija
+function predictPrice(data) {
+    // Bazinė kaina pagal vietą
+    let basePrice = LOCATION_PRICES[data.location] || 300000;
+    
+    // Turto tipo koeficientas
+    const typeMultiplier = TYPE_MULTIPLIERS[data.propertyType] || 1.0;
+    basePrice *= typeMultiplier;
+    
+    // Miegamųjų įtaka
+    const bedrooms = parseFloat(data.bedrooms) || 0;
+    basePrice += bedrooms * 35000;
+    
+    // Vonios kambarių įtaka
+    const bathrooms = parseFloat(data.bathrooms) || 0;
+    basePrice += bathrooms * 20000;
+    
+    // Ploto įtaka
+    const indoorArea = parseFloat(data.indoorArea) || 0;
+    const outdoorArea = parseFloat(data.outdoorArea) || 0;
+    basePrice += indoorArea * 2500;
+    basePrice += outdoorArea * 150;
+    
+    // Požymių įtaka
+    data.features.forEach(feature => {
+        basePrice += FEATURE_VALUES[feature] || 5000;
+    });
+    
+    // Vaizdų įtaka (šviesesni vaizdai = aukštesnė kaina)
+    if (imageFeatures.length > 0) {
+        const avgBrightness = imageFeatures.reduce((s, f) => s + f.brightness, 0) / imageFeatures.length;
+        const brightnessMultiplier = 0.9 + (avgBrightness / 255) * 0.3;
+        basePrice *= brightnessMultiplier;
+        
+        // Nuotraukų skaičius rodo geresnę turto būklę
+        basePrice *= (1 + selectedFiles.length * 0.02);
+    }
+    
+    // Atsitiktinis triukšmas realizmui
+    const noise = (Math.random() - 0.5) * 0.1;
+    basePrice *= (1 + noise);
+    
+    return Math.max(basePrice, 50000);
+}
+
+// Formos pateikimas
+const form = document.getElementById('prediction-form');
+const submitBtn = document.getElementById('submit-btn');
+const resultPlaceholder = document.getElementById('result-placeholder');
+const loading = document.getElementById('loading');
+const resultDisplay = document.getElementById('result-display');
+const predictedPrice = document.getElementById('predicted-price');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    submitBtn.disabled = true;
+    resultPlaceholder.style.display = 'none';
+    resultDisplay.style.display = 'none';
+    loading.classList.add('active');
+    
+    // Rinkti duomenis
+    const data = {
+        location: document.getElementById('location').value,
+        propertyType: document.getElementById('property_type').value,
+        bedrooms: document.getElementById('bedrooms').value,
+        bathrooms: document.getElementById('bathrooms').value,
+        indoorArea: document.getElementById('indoor_area').value,
+        outdoorArea: document.getElementById('outdoor_area').value,
+        features: Array.from(document.querySelectorAll('input[name="features"]:checked')).map(cb => cb.value)
+    };
+    
+    // Simuliuoti apdorojimo laiką
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Apskaičiuoti prognozę
+    const price = predictPrice(data);
+    
+    loading.classList.remove('active');
+    predictedPrice.textContent = `€${Math.round(price).toLocaleString('de-DE')}`;
+    resultDisplay.style.display = 'block';
+    submitBtn.disabled = false;
+});
+</script>
+</body>
+</html>
