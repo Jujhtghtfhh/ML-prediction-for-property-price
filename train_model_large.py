@@ -1,9 +1,3 @@
-"""
-Real Estate Price Prediction Model Training
-Optimized for large datasets (12000+ samples)
-Uses tabular data and image features for prediction
-"""
-
 import os
 import re
 import pandas as pd
