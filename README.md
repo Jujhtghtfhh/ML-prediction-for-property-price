@@ -15,9 +15,9 @@ Sistema, kuri prognozuoja nekilnojamojo turto kainą pagal:
  Tada i data folderi sudekite savo duomenis (descriptions images properties)
  
  ./data: 
-    /decriptions 
-    /images 
-    properties.csv
+  - /decriptions 
+  - /images 
+  - properties.csv
 
 1. **Įdiekite priklausomybes:**
 ```bash
