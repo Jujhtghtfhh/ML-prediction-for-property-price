@@ -32,7 +32,6 @@ NUM_WORKERS = 4
 
 CSV_PATH = os.path.join(DATA_DIR, "properties.csv")
 IMAGES_DIR = os.path.join(DATA_DIR, "images")
-DESCRIPTIONS_DIR = os.path.join(DATA_DIR, "descriptions")
 
 
 def parse_price(price_str):
