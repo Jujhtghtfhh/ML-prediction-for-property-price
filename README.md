@@ -10,12 +10,11 @@ Sistema, kuri prognozuoja nekilnojamojo turto kainą pagal:
  Pirma atsisiūskite duomenis
  https://zenodo.org/records/10962212
 
- Tada išpakuokite descriptions bei images folderius
- Projekto direktorijoj sukurkite data bei static folderius
- Tada i data folderi sudekite savo duomenis (descriptions images properties)
+ Tada išpakuokite images aplanką
+ Projekto direktorijoj sukurkite data bei static aplankus
+ Tada į data aplanką sudėkite savo duomenis (images, properties)
  
  ./data: 
-  - /decriptions 
   - /images 
   - properties.csv
 
