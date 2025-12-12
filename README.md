@@ -78,12 +78,3 @@ reference,location,price,title,bedrooms,bathrooms,indoor_area,outdoor_area,featu
 R31352,"Coín, Costa del Sol","€115,000",Plot,625,NA,NA,NA,Close to Shops|Mountain Views|Private Garden
 R20329,"Estepona, Costa del Sol","€699,000",5 Bedroom Finca,5,2,250,400,Mountain Views|Private Pool|Sea Views
 ```
-
-
-## Konfigūracija
-
-Galite pridėti naujas vietas ir turto tipus redaguodami:
-
-**Flask versijoje:** `metadata.pkl` failą arba CSV duomenis
-
-**HTML versijoje:** JavaScript masyvus `LOCATION_PRICES` ir `TYPE_MULTIPLIERS`
