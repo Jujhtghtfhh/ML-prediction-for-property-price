@@ -10,14 +10,13 @@ Sistema, kuri prognozuoja nekilnojamojo turto kainą pagal:
  Pirma atsisiūskite duomenis
  https://zenodo.org/records/10962212
 
- Tada išpakuokite descriptions bei images folderius
- Projekto direktorijoj sukurkite data bei static folderius
- Tada i data folderi sudekite savo duomenis (descriptions images properties)
+ Tada išpakuokite images aplanką
+ Projekto direktorijoj sukurkite data bei static aplankus
+ Tada į data aplanką sudėkite savo duomenis (images, properties)
  
  ./data: 
-    /decriptions 
-    /images 
-    properties.csv
+  - /images 
+  - properties.csv
 
 1. **Įdiekite priklausomybes:**
 ```bash
@@ -41,7 +40,7 @@ http://localhost:5000
 
 ---
 
-## 🧠 Mašininio mokymosi modelis
+## Mašininio mokymosi modelis
 
 ### Naudojami algoritmai:
 - **Random Forest Regressor** - pagrindinis prognozavimo modelis
@@ -71,43 +70,10 @@ http://localhost:5000
 
 ---
 
-## 📊 Duomenų formatas (CSV)
+## Duomenų formatas (CSV)
 
 ```csv
 reference,location,price,title,bedrooms,bathrooms,indoor_area,outdoor_area,features
 R31352,"Coín, Costa del Sol","€115,000",Plot,625,NA,NA,NA,Close to Shops|Mountain Views|Private Garden
 R20329,"Estepona, Costa del Sol","€699,000",5 Bedroom Finca,5,2,250,400,Mountain Views|Private Pool|Sea Views
 ```
-
----
-
-## 🎨 Vartotojo sąsaja
-
-Sistema turi modernią, Ispanijos stiliaus vartotojo sąsają su:
-- Intuityviu formos išdėstymu
-- Drag & drop nuotraukų įkėlimu
-- Realiu laiku rodomais nuotraukų peržiūrėjimais
-- Animuotu kainos prognozės rodymu
-- Responsive dizainu (veikia mobiliuosiuose)
-
----
-
-## 🔧 Konfigūracija
-
-Galite pridėti naujas vietas ir turto tipus redaguodami:
-
-**Flask versijoje:** `metadata.pkl` failą arba CSV duomenis
-
-**HTML versijoje:** JavaScript masyvus `LOCATION_PRICES` ir `TYPE_MULTIPLIERS`
-
----
-
-## 📝 Licenzija
-
-Šis projektas sukurtas demonstraciniais tikslais.
-
----
-
-## 👤 Autorius
-
-Sukurta naudojant Claude AI (Anthropic)
